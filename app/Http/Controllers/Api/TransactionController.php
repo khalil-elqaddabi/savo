@@ -28,9 +28,11 @@ class TransactionController extends Controller
             ->with(['account', 'destinationAccount', 'category']);
 
         if ($search = $request->string('search')->trim()->toString()) {
-            $query->where(function ($q) use ($search) {
-                $q->where('description', 'like', "%{$search}%")
-                    ->orWhere('merchant', 'like', "%{$search}%");
+            $needle = '%'.mb_strtolower($search).'%';
+
+            $query->where(function ($q) use ($needle) {
+                $q->whereRaw('LOWER(description) LIKE ?', [$needle])
+                    ->orWhereRaw('LOWER(merchant) LIKE ?', [$needle]);
             });
         }
 
