@@ -1,0 +1,431 @@
+@import 'tailwindcss';
+
+@source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
+@source '../../storage/framework/views/*.php';
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* ============================================================
+   Savo — Design Tokens
+   Two first-class themes. Components consume semantic tokens,
+   never hardcoded colors.
+   ============================================================ */
+
+:root {
+    color-scheme: light;
+
+    /* Surfaces */
+    --color-canvas: #f6f5f2;
+    --color-surface: #ffffff;
+    --color-surface-soft: #f3f2ef;
+    --color-surface-strong: #eae9e5;
+    --color-surface-elevated: #ffffff;
+
+    /* Ink */
+    --color-ink: #1b1c1f;
+    --color-ink-soft: #56585f;
+    --color-ink-faint: #8c8e97;
+
+    /* Lines / borders */
+    --color-line: #e7e5df;
+    --color-line-strong: #d5d2cb;
+    --color-line-soft: #efede9;
+
+    /* Accent (brand primary) */
+    --color-accent: #0d8f74;
+    --color-accent-strong: #06947a;
+    --color-accent-muted: #3aa488;
+    --color-accent-soft: rgba(13, 143, 116, 0.1);
+    --color-accent-contrast: #ffffff;
+
+    /* User message bubble — premium accent-tinted surface (light) */
+    --color-user-bubble: rgba(13, 143, 116, 0.08);
+    --color-user-bubble-border: rgba(13, 143, 116, 0.22);
+
+    /* Send button / accent gradient */
+    --color-btn-grad-from: #0e9b7e;
+    --color-btn-grad-to: #0d8f74;
+
+    /* Elevation */
+    --shadow-card: 0 1px 2px 0 rgb(30 30 34 / 0.04), 0 1px 1px -1px rgb(30 30 34 / 0.03);
+    --shadow-lift: 0 6px 20px -8px rgb(30 30 34 / 0.14);
+    --shadow-pop: 0 16px 40px -12px rgb(30 30 34 / 0.22);
+}
+
+html.dark, .dark {
+    color-scheme: dark;
+
+    --color-canvas: #0e1013;
+    --color-surface: #16181d;
+    --color-surface-soft: #1b1e24;
+    --color-surface-strong: #23272e;
+    --color-surface-elevated: #1c1f26;
+
+    --color-ink: #edf0f3;
+    --color-ink-soft: #c6cdd6;
+    --color-ink-faint: #b0b8c2;
+
+    --color-line: #22262c;
+    --color-line-strong: #2d323a;
+    --color-line-soft: #1e2127;
+
+    --color-accent: #2bd2b4;
+    --color-accent-strong: #43dfc4;
+    --color-accent-muted: #66e6d0;
+    --color-accent-soft: rgba(43, 210, 180, 0.14);
+    --color-accent-contrast: #05312a;
+
+    /* User bubble gradient accent */
+    --color-btn-grad-from: #26c4a8;
+    --color-btn-grad-to: #2bd2b4;
+
+    /* User message bubble — darker surface slightly lighter than chat bg (dark) */
+    --color-user-bubble: rgba(43, 210, 180, 0.09);
+    --color-user-bubble-border: rgba(43, 210, 180, 0.28);
+
+    --shadow-card: 0 1px 2px 0 rgb(0 0 0 / 0.18);
+    --shadow-lift: 0 8px 24px -10px rgb(0 0 0 / 0.5);
+    --shadow-pop: 0 20px 48px -16px rgb(0 0 0 / 0.65);
+}
+
+@theme {
+    --font-sans: 'Inter', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+    --font-arabic: 'Tajawal', 'Inter', ui-sans-serif, system-ui, sans-serif;
+    --default-font-family: var(--font-sans);
+
+    /* Brand scale — refined teal */
+    --color-brand-50: #ecf9f5;
+    --color-brand-100: #d2f2e9;
+    --color-brand-200: #a7e5d5;
+    --color-brand-300: #6fd1bb;
+    --color-brand-400: #3ab89d;
+    --color-brand-500: #16a184;
+    --color-brand-600: #0d8f74;
+    --color-brand-700: #0e7661;
+    --color-brand-800: #115e4f;
+    --color-brand-900: #114d43;
+    --color-brand-950: #072c25;
+
+    --color-cyan-neon: #2cd4e8;
+
+    /* Dynamic surface tokens */
+    --color-canvas: var(--color-canvas);
+    --color-surface: var(--color-surface);
+    --color-surface-soft: var(--color-surface-soft);
+    --color-surface-strong: var(--color-surface-strong);
+    --color-surface-elevated: var(--color-surface-elevated);
+
+    /* Dynamic ink / text tokens */
+    --color-ink: var(--color-ink);
+    --color-ink-soft: var(--color-ink-soft);
+    --color-ink-faint: var(--color-ink-faint);
+
+    /* Dynamic line / border tokens */
+    --color-line: var(--color-line);
+    --color-line-strong: var(--color-line-strong);
+    --color-line-soft: var(--color-line-soft);
+
+    /* Accent */
+    --color-accent: var(--color-accent);
+    --color-accent-strong: var(--color-accent-strong);
+    --color-accent-muted: var(--color-accent-muted);
+    --color-accent-soft: var(--color-accent-soft);
+    --color-accent-contrast: var(--color-accent-contrast);
+
+    /* User bubble gradient */
+    --color-btn-grad-from: var(--color-btn-grad-from);
+    --color-btn-grad-to: var(--color-btn-grad-to);
+
+    /* User bubble surface */
+    --color-user-bubble: var(--color-user-bubble);
+    --color-user-bubble-border: var(--color-user-bubble-border);
+
+    /* Status */
+    --color-mint: #12946c;
+    --color-coral: #d9534f;
+    --color-amberbrand: #a98112;
+
+    /* Elevation */
+    --shadow-card: var(--shadow-card);
+    --shadow-lift: var(--shadow-lift);
+    --shadow-pop: var(--shadow-pop);
+}
+
+/* Arabic type — apply Tajawal for the whole interface in RTL/Arabic */
+html[lang^='ar'] {
+    --font-sans: 'Tajawal', 'Inter', ui-sans-serif, system-ui, sans-serif;
+    --default-font-family: var(--font-sans);
+}
+
+/* ============================================================
+   Base
+   ============================================================ */
+@layer base {
+    html {
+        -webkit-tap-highlight-color: transparent;
+        scroll-behavior: smooth;
+    }
+
+    body {
+        @apply bg-canvas text-ink antialiased;
+        font-feature-settings: 'cv02', 'cv03', 'cv04', 'ss01';
+        letter-spacing: -0.011em;
+    }
+
+    html.light body, .light body {
+        background-color: var(--color-canvas);
+    }
+
+    html.dark body, .dark body {
+        background-color: var(--color-canvas);
+    }
+
+    /* Consistent keyboard focus */
+    :focus-visible {
+        outline: 2px solid var(--color-accent);
+        outline-offset: 2px;
+        border-radius: 6px;
+    }
+
+    ::selection {
+        background-color: color-mix(in srgb, var(--color-accent) 22%, transparent);
+    }
+
+    [dir='rtl'] .rtl\:mirror {
+        transform: scaleX(-1);
+    }
+    [dir='ltr'] .ltr\:mirror {
+        transform: scaleX(-1);
+    }
+}
+
+/* ============================================================
+   Utilities
+   ============================================================ */
+@utility btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    border-radius: 0.625rem;
+    padding: 0.5625rem 0.875rem;
+    font-size: 0.875rem;
+    font-weight: 600;
+    letter-spacing: -0.011em;
+    line-height: 1.25rem;
+    transition: background-color 0.16s ease, border-color 0.16s ease, color 0.16s ease,
+        box-shadow 0.16s ease, opacity 0.16s ease, transform 0.12s ease;
+    cursor: pointer;
+    white-space: nowrap;
+
+    &:active:not(:disabled) {
+        transform: translateY(1px);
+    }
+    &:disabled {
+        cursor: not-allowed;
+        opacity: 0.55;
+    }
+}
+
+@utility glass-card {
+    @apply rounded-2xl border;
+    border-color: var(--color-line);
+    background: var(--color-surface-elevated);
+}
+
+@utility glow-brand {
+    box-shadow: 0 0 0 1px color-mix(in srgb, var(--color-accent) 25%, transparent),
+        var(--shadow-lift);
+}
+
+@utility text-glow {
+    text-shadow: 0 0 24px color-mix(in srgb, var(--color-accent) 35%, transparent);
+}
+
+/* Micro uppercase label */
+@utility micro {
+    font-size: 0.6875rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--color-ink-faint);
+}
+
+/* ============================================================
+   Components
+   ============================================================ */
+@layer components {
+    .card {
+        @apply rounded-2xl border border-line bg-surface shadow-card;
+    }
+
+    .card-dark {
+        @apply rounded-2xl border border-line bg-surface-elevated shadow-card;
+    }
+    html.light .card-dark, .light .card-dark {
+        @apply border-line bg-white shadow-card;
+    }
+
+    .card-soft {
+        @apply rounded-2xl border border-line bg-surface-soft;
+    }
+
+    /* User message bubble — subtle accent-tinted surface, distinct from assistant */
+    .user-bubble {
+        border-radius: 1rem;
+        border-top-end-radius: 0.375rem;
+        background: var(--color-user-bubble);
+        border: 1px solid var(--color-user-bubble-border);
+        box-shadow: 0 1px 2px 0 rgb(30 30 34 / 0.06);
+        color: var(--color-ink);
+    }
+    html.dark .user-bubble, .dark .user-bubble {
+        color: #f2f4f6;
+        background: var(--color-user-bubble);
+        box-shadow: 0 4px 14px -6px rgb(0 0 0 / 0.6);
+    }
+
+    .glass {
+        @apply rounded-2xl border border-line bg-surface-elevated;
+    }
+
+    .input {
+        @apply w-full rounded-[0.625rem] border border-line bg-surface-elevated px-3.5 py-2.5 text-sm text-ink outline-none transition
+            placeholder:text-ink-faint hover:border-line-strong focus:border-accent focus:ring-2 focus:ring-accent/25
+            disabled:cursor-not-allowed disabled:opacity-60;
+    }
+
+    .label {
+        @apply mb-1.5 block text-[13px] font-medium text-ink-soft;
+    }
+
+    .badge {
+        @apply inline-flex items-center gap-1 rounded-full px-2.5 py-[3px] text-[11px] font-semibold;
+    }
+
+    .micro-label {
+        @apply micro;
+    }
+
+    /* Theme-aware button variants (used by <Link className="btn-*">) */
+    .btn-primary {
+        @apply btn bg-accent text-accent-contrast hover:bg-accent-strong;
+    }
+    .btn-soft {
+        @apply btn bg-accent-soft text-accent hover:bg-accent/15;
+    }
+    .btn-secondary {
+        @apply btn border border-line-strong bg-surface-elevated text-ink-soft hover:bg-surface-strong hover:text-ink;
+    }
+    .btn-danger {
+        @apply btn bg-coral text-white hover:opacity-90;
+    }
+    .btn-ghost {
+        @apply btn text-ink-soft hover:bg-surface-strong hover:text-ink;
+    }
+}
+
+/* ============================================================
+   Scrollbars
+   ============================================================ */
+::-webkit-scrollbar { width: 8px; height: 8px; }
+::-webkit-scrollbar-thumb { background: var(--color-ink-faint); opacity: 0.5; border-radius: 9999px; }
+::-webkit-scrollbar-thumb:hover { background: var(--color-ink-soft); }
+::-webkit-scrollbar-track { background: transparent; }
+
+.pb-safe { padding-bottom: env(safe-area-inset-bottom, 0px); }
+
+/* ============================================================
+   Motion
+   ============================================================ */
+@keyframes fade-up {
+    from { opacity: 0; transform: translateY(6px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+.animate-fade-up { animation: fade-up 0.26s cubic-bezier(0.22, 1, 0.36, 1) both; }
+
+@keyframes fade-in {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+.animate-fade-in { animation: fade-in 0.2s ease both; }
+
+@keyframes pop {
+    from { opacity: 0; transform: scale(0.98); }
+    to { opacity: 1; transform: scale(1); }
+}
+.animate-pop { animation: pop 0.2s cubic-bezier(0.22, 1, 0.36, 1) both; }
+
+@keyframes pulse-glow {
+    0%, 100% { box-shadow: 0 0 0 0 color-mix(in srgb, var(--color-accent) 0%, transparent); }
+    50% { box-shadow: 0 0 22px 0 color-mix(in srgb, var(--color-accent) 30%, transparent); }
+}
+.animate-pulse-glow { animation: pulse-glow 3s ease-in-out infinite; }
+
+@keyframes shimmer {
+    0% { background-position: -400px 0; }
+    100% { background-position: 400px 0; }
+}
+.skeleton {
+    background: linear-gradient(
+        90deg,
+        var(--color-surface-strong) 25%,
+        var(--color-surface-soft) 50%,
+        var(--color-surface-strong) 75%
+    );
+    background-size: 400px 100%;
+    animation: shimmer 1.4s infinite linear;
+    border-radius: 0.5rem;
+}
+
+/* Typing dots */
+@keyframes typing-dot {
+    0%, 60%, 100% { opacity: 0.25; transform: translateY(0); }
+    30% { opacity: 1; transform: translateY(-2px); }
+}
+.typing-dot { animation: typing-dot 1.2s ease-in-out infinite; }
+
+/* Chat message entrance */
+@keyframes chat-in {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+.animate-chat-in { animation: chat-in 0.22s cubic-bezier(0.22, 1, 0.36, 1) both; }
+
+/* Subtle scale-in for assertive interactive tiles */
+@keyframes ingress {
+    from { opacity: 0; transform: translateY(10px) scale(0.985); }
+    to { opacity: 1; transform: translateY(0) scale(1); }
+}
+.animate-ingress { animation: ingress 0.3s cubic-bezier(0.22, 1, 0.36, 1) both; }
+
+/* Assistant workspace surface — a subtle, distinct canvas gradient per theme */
+@utility chat-surface {
+    background: linear-gradient(180deg, #f9f8f5 0%, #f5f4f0 100%);
+}
+html.dark .chat-surface, .dark .chat-surface {
+    background: linear-gradient(180deg, #0a0c0e 0%, #070809 100%);
+}
+
+/* Code block surface inside assistant markdown */
+@utility chat-code-surface {
+    background: color-mix(in srgb, var(--color-ink) 6%, var(--color-surface-elevated));
+}
+
+/* Typing indicator inward pulse for the assistant avatar while thinking */
+@keyframes typing-breathe {
+    0%, 100% { box-shadow: 0 0 0 0 color-mix(in srgb, var(--color-accent) 0%, transparent); }
+    50% { box-shadow: 0 0 14px 0 color-mix(in srgb, var(--color-accent) 28%, transparent); }
+}
+.animate-typing-breathe { animation: typing-breathe 1.4s ease-in-out infinite; }
+
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.001ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.001ms !important;
+        scroll-behavior: auto !important;
+    }
+}
