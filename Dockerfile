@@ -64,7 +64,7 @@ RUN apt-get update \
         libpq-dev \
         libpng-dev \
         libjpeg62-turbo-dev \
-        libfreetype6-dev \
+        libfreetype-dev \
         libwebp-dev \
         libxml2-dev \
         libcurl4-openssl-dev \
